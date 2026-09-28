@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AP TET Login</title><script src="users.js"></script>
+<style>body{font-family:Arial;text-align:center;padding:40px;background:#f0f4ff}.box{background:#fff;padding:25px;border-radius:15px;max-width:380px;margin:auto;box-shadow:0 4px 15px rgba(0,0,0,.1)} input{padding:14px;width:90%;border:1px solid #ccc;border-radius:8px;font-size:16px} button{padding:14px 25px;background:#0d6efd;color:#fff;border:none;border-radius:8px;margin-top:15px;font-size:17px;width:95%}</style>
+</head><body>
+<div class="box">
+<h2>AP TET & DSC Login</h2><p>రిజిస్టర్డ్ మొబైల్ నెంబర్ ఎంటర్ చేయండి</p>
+<input id="mobile" placeholder="Ex: 7337290386" type="tel"><br>
+<button onclick="check()">Login</button>
+<p id="msg" style="color:red;font-weight:bold"></p>
+<p style="font-size:13px;color:#666;margin-top:20px">సందేహాలకు: 7337290386</p>
+</div>
+<script>
+function check(){
+ let m=document.getElementById('mobile').value.trim();
+ if(!USERS[m]){document.getElementById('msg').innerText="❌ ఈ నెంబర్ లిస్ట్ లో లేదు. Admin: 7337290386";return;}
+ if(!USERS[m].active){document.getElementById('msg').innerText="⛔ మీ అకౌంట్ Block అయింది";return;}
+ let p=prompt("మీ పేరు: "+USERS[m].name+"\n\nమీ పాస్వర్డ్ ఎంటర్ చేయండి:");
+ if(p===USERS[m].pwd){localStorage.setItem('loggedIn',m);window.location.href="main.html";}
+ else if(p!=null){alert("తప్పు పాస్వర్డ్!");}
+}
+</script></body></html>
