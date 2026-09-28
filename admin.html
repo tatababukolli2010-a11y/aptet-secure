@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - AP TET</title>
+<style>
+body{font-family:Arial;background:#f0f4ff;display:flex;justify-content:center;padding:20px}
+.box{background:white;width:100%;max-width:500px;padding:25px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+h2{text-align:center;color:#1a73e8}
+input{width:70%;padding:12px;border:1px solid #ccc;border-radius:8px}
+button{padding:12px 15px;border:none;background:#1a73e8;color:white;border-radius:8px;cursor:pointer;margin:2px}
+.list{margin-top:20px;max-height:300px;overflow-y:auto}
+.item{display:flex;justify-content:space-between;background:#f5f5f5;padding:10px;margin:5px 0;border-radius:8px}
+.del{background:#e53935}
+.code-box{background:#222;color:#0f0;padding:15px;border-radius:8px;margin-top:20px;white-space:pre-wrap;word-break:break-all;font-size:12px}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>Admin Panel</h2>
+<p style="text-align:center">మొబైల్ నంబర్లు మేనేజ్ చేయండి</p>
+<div style="display:flex;gap:5px">
+<input id="num" type="number" placeholder="Ex: 9876543210">
+<button onclick="addNum()">Add</button>
+</div>
+<div class="list" id="list"></div>
+<button style="width:100%;margin-top:15px;background:#0d9d0d" onclick="generate()">💾 Generate new users.js</button>
+<div id="output"></div>
+</div>
+<script src="users.js"></script>
+<script>
+let users = [...(typeof allowedUsers !== 'undefined' ? allowedUsers : [])];
+function render(){
+ let l=document.getElementById('list'); l.innerHTML='';
+ users.forEach((n,i)=>{
+  l.innerHTML+=`<div class="item"><span>${n}</span><button class="del" onclick="del(${i})">X</button></div>`;
+ });
+}
+function addNum(){
+ let n=document.getElementById('num').value.trim();
+ if(n.length<10){alert('10 అంకెల నంబర్ ఇవ్వండి');return}
+ if(users.includes(n)){alert('ఇప్పటికే ఉంది');return}
+ users.push(n); document.getElementById('num').value=''; render();
+}
+function del(i){ users.splice(i,1); render(); }
+function generate(){
+ let code=`const allowedUsers = ${JSON.stringify(users, null, 2)};`;
+ document.getElementById('output').innerHTML=`<div class="code-box">${code}</div><p style="color:red"><b>ఇప్పుడు:</b><br>1. పై కోడ్ ని కాపీ చేయండి<br>2. Repository లో users.js ని Edit చేసి Paste చేసి Save చేయండి<br>3. 1 నిమిషంలో కొత్త నెంబర్లు పని చేస్తాయి</p><button style="width:100%" onclick="navigator.clipboard.writeText(\`${code}\`).then(()=>alert('Copy అయ్యింది!'))">📋 Copy Code</button>`;
+}
+render();
+</script>
+</body>
+</html>
